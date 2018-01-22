@@ -5,7 +5,6 @@
 module Network.Discord.Rest.Prelude where
   import Control.Concurrent (threadDelay)
 
-  import Control.Comonad
   import Control.Concurrent.STM
   import Data.Aeson
   import Data.Default
@@ -76,12 +75,12 @@ module Network.Discord.Rest.Prelude where
   -- | Result of a data retrieval action
   data Fetched = forall a. (FromJSON a) => SyncFetched a
 
-  instance Functor Fetched where
-    fmap f (SyncFetched a) = SyncFetched (f a)
-
-  instance Comonad Fetched where
-    extend = (SyncFetched .)
-    extract (SyncFetched a) = a
+--  instance Functor Fetched where
+--    fmap f (SyncFetched a) = SyncFetched (f a)
+--
+--  instance Comonad Fetched where
+--    extend = (SyncFetched .)
+--    extract (SyncFetched a) = a
 
   -- | Represents a range of 'Snowflake's
   data Range = Range { after :: Snowflake, before :: Snowflake, limit :: Int}

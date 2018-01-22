@@ -1,6 +1,14 @@
 extra-package-dbs: []
 packages:
 - '.'
-resolver: lts-8.5
+#resolver: lts-8.5
+resolver: lts-10.3
+extra-deps:
+- aeson-1.1.2.0
+- mmorph-1.0.9
+- req-0.2.0
+- websockets-0.10.0.0
 nix:
-  shell-file: shell.nix
+  enable: true
+  packages: [zlib]
+#  shell-file: shell.nix
