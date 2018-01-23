@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, RecordWildCards #-}
+{-# LANGUAGE MultiWayIf, OverloadedStrings, RecordWildCards #-}
 import Data.Text
 import Pipes
 
@@ -15,6 +15,9 @@ main = runBot (Bot Secret.token) $ do
     fetch' (CreateMessage Secret.channelTest "Hello, World!" Nothing)
 
   with MessageCreateEvent $ \msg@Message{..} -> do
-    when ("Ping" `isPrefixOf` messageContent && (not . userIsBot $ messageAuthor)) $ do
-      liftIO $ putStrLn "got a trigger"
-      reply msg "Pong!"
+    when (not . userIsBot $ messageAuthor) $ do
+      if | "Ping" `isPrefixOf` messageContent -> do
+             liftIO $ putStrLn "got a trigger"
+             reply msg "Pong!"
+         | "ピン" `isPrefixOf` messageContent -> reply msg "ポン!"
+         | otherwise -> return ()
