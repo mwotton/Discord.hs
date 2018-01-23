@@ -18,7 +18,7 @@ main = runBot (Bot Secret.token) $ do
     send "Hello, World! I'm back."
 
   with MessageCreateEvent $ \msg@Message{..} -> do
-    when ((not . userIsBot $ messageAuthor) && (messageChannel == Secret.channel)) $ do
+    when (not (userIsBot messageAuthor) && messageChannel == Secret.channel) $ do
       if | "Ping" `isPrefixOf` messageContent -> do
              liftIO $ putStrLn "got a trigger"
              reply msg "Pong!"
