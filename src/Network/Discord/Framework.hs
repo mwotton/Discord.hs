@@ -102,6 +102,9 @@ module Network.Discord.Framework where
   with :: D.Client c => (a -> Handle c) -> a -> DiscordBot c ()
   with f a = tell $ f a
 
+  instance D.Client c => Semigroup (Handle c) where
+    a <> b = Misc (\ev -> handle a ev <> handle b ev)
+
   instance D.Client c => Monoid (Handle c) where
     mempty = Null
     a `mappend` b = Misc (\ev -> handle a ev <> handle b ev)
