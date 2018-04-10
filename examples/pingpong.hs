@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings, TypeOperators, FlexibleInstances, MultiParamTypeClasses #-}
 {-# LANGUAGE DataKinds, TypeFamilies #-}
+{-# LANGUAGE UndecidableInstances #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 import Control.Monad (mzero)
@@ -7,7 +8,7 @@ import Data.Proxy
 import GHC.TypeLits
 
 import Network.Discord
-
+import Network.HTTP.Req (MonadHttp)
 import Control.Monad.IO.Class
 import Data.Text
 
@@ -15,6 +16,8 @@ instance DiscordAuth IO where
   auth    = return $ Bot "TOKEN"
   version = return "0.2.2"
   runIO   = id
+
+instance MonadHttp (DiscordApp IO)
 
 data Command (a :: Symbol)
 
