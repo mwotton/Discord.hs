@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f5a09fb6e550b3464cc9b8e497849d0f4abd8add66303b7ea2a603f840bc05d6
+-- hash: 2f6a88ad04e3adc9d550d98aeccb3121a4fbd5dc0379d82bd84d5fea879f6523
 
 name:           discord-hs
 version:        0.2.2
@@ -26,12 +26,12 @@ flag docs
 library
   exposed-modules:
       Network.Discord
-      Network.Discord.Framework
   other-modules:
+      Network.Discord.Framework
       Paths_discord_hs
   hs-source-dirs:
       src
-  ghc-options: -Wall
+  ghc-options: -j -Wall
   build-depends:
       aeson >=1.2
     , base
@@ -40,7 +40,46 @@ library
     , discord-types
     , hashable
     , mtl
-    , pandoc
-    , url >=2.1
     , websockets
+  default-language: Haskell2010
+
+executable docs
+  main-is: Site.hs
+  other-modules:
+      Paths_discord_hs
+  hs-source-dirs:
+      docs
+  ghc-options: -Wall
+  if flag(docs)
+    build-depends:
+        hakyll
+      , split
+  else
+    buildable: False
+  default-language: Haskell2010
+
+executable hello_world
+  main-is: hello_world.hs
+  other-modules:
+      Secret
+      Paths_discord_hs
+  hs-source-dirs:
+      examples
+  build-depends:
+      base
+    , discord-hs
+  default-language: Haskell2010
+
+executable pingpong
+  main-is: pingpong.hs
+  other-modules:
+      Secret
+      Paths_discord_hs
+  hs-source-dirs:
+      examples
+  build-depends:
+      base
+    , discord-hs
+    , req
+    , text
   default-language: Haskell2010

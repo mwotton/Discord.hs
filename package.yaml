@@ -12,10 +12,6 @@ author:              Joshua Koike
 maintainer:          jkoike2013@gmail.com
 copyright:           Joshua Koike
 category:            Network
-# build-type:          Simple
-# extra-source-files:
-# cabal-version:       >=1.10
-# default-language:    Haskell2010
 
 flags:
   docs:
@@ -24,31 +20,44 @@ flags:
     default:		false
 
 library:
-  source-dirs:		src
-  ghc-options:         -Wall
-dependencies:
-  - base
-  - aeson >= 1.2
-  - discord-types
-  - discord-rest
-  - discord-gateway
-  - hashable
-  - mtl
-  - url >= 2.1
-  - websockets
-  - pandoc
+  source-dirs: 		src
+  ghc-options:          -j -Wall
+  exposed-modules:      Network.Discord
+  dependencies:
+    - base
+    - aeson >= 1.2
+    - discord-types
+    - discord-rest
+    - discord-gateway
+    - hashable
+    - mtl
+    - websockets
 
-# executables:
-#   docs:
-#     main:             Site.hs
-#     source-dirs:      docs
-#     when:
-#       - condition: flag(docs)
-#         then:
-#           dependencies:
-#             - base==4.*
-#             - hakyll
-#             - split
-#         else:
-#           buildable:         false
-#     ghc-options:         -Wall
+executables:
+  docs:
+    source-dirs:      docs
+    main:             Site.hs
+    when:
+      - condition: flag(docs)
+        then:
+          dependencies:
+            - split
+            - hakyll
+        else:
+          buildable:         false
+    ghc-options:         -Wall
+  hello_world:
+    source-dirs:	examples
+    main:		hello_world.hs
+    dependencies:
+      - base
+      - discord-hs
+  pingpong:
+    source-dirs:	examples
+    main:		pingpong.hs
+    dependencies:
+      - base
+      - discord-hs
+      - req
+      - text
+      
