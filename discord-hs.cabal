@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2f6a88ad04e3adc9d550d98aeccb3121a4fbd5dc0379d82bd84d5fea879f6523
+-- hash: 3223bbc7d5b7f1e82a2be59dfcd59eeeec721776af253206880fbbf3b80ef0ab
 
 name:           discord-hs
 version:        0.2.2
@@ -52,7 +52,9 @@ executable docs
   ghc-options: -Wall
   if flag(docs)
     build-depends:
-        hakyll
+        base
+      , discord-hs
+      , hakyll
       , split
   else
     buildable: False

@@ -11,9 +11,10 @@ import Network.Discord
 import Network.HTTP.Req (MonadHttp)
 import Control.Monad.IO.Class
 import Data.Text
+import Secret (token)
 
 instance DiscordAuth IO where
-  auth    = return $ Bot "TOKEN"
+  auth    = return $ Bot token -- "TOKEN"
   version = return "0.2.2"
   runIO   = id
 

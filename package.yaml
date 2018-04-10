@@ -41,6 +41,8 @@ executables:
       - condition: flag(docs)
         then:
           dependencies:
+            - base
+            - discord-hs
             - split
             - hakyll
         else:
@@ -60,4 +62,3 @@ executables:
       - discord-hs
       - req
       - text
-      
