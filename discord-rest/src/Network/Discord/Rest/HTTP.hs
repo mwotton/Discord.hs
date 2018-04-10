@@ -53,14 +53,14 @@ module Network.Discord.Rest.HTTP
       Post   :: (FromJSON r, R.HttpBody a) => R.Url 'R.Https -> a -> Option -> JsonRequest r
       Put    :: (FromJSON r, R.HttpBody a) => R.Url 'R.Https -> a -> Option -> JsonRequest r
 
-    fetch :: (FromJSON r, DiscordRest m) => JsonRequest r -> m (R.JsonResponse r)
+    fetch :: (FromJSON r, R.MonadHttp m, DiscordRest m) => JsonRequest r -> m (R.JsonResponse r)
     fetch (Delete url      opts) = R.req R.DELETE url R.NoReqBody R.jsonResponse =<< (<> opts) <$> baseRequestOptions
     fetch (Get    url      opts) = R.req R.GET    url R.NoReqBody R.jsonResponse =<< (<> opts) <$> baseRequestOptions
     fetch (Patch  url body opts) = R.req R.PATCH  url body        R.jsonResponse =<< (<> opts) <$> baseRequestOptions
     fetch (Post   url body opts) = R.req R.POST   url body        R.jsonResponse =<< (<> opts) <$> baseRequestOptions
     fetch (Put    url body opts) = R.req R.PUT    url body        R.jsonResponse =<< (<> opts) <$> baseRequestOptions
 
-    makeRequest :: (FromJSON r, DiscordRest m, DoFetch f r) 
+    makeRequest :: (FromJSON r, R.MonadHttp m, DiscordRest m, DoFetch f r)
       => f r -> JsonRequest r -> m r
     makeRequest req action = do
       waitRateLimit req

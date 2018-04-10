@@ -14,6 +14,7 @@ module Network.Discord.Rest.User
     import Network.Discord.Rest.Prelude
     import Network.Discord.Types
     import Network.Discord.Rest.HTTP
+    import Network.HTTP.Req (MonadHttp)
 
     -- | Data constructor for User requests. See
     --   <https://discordapp.com/developers/docs/resources/user User API>
@@ -49,7 +50,7 @@ module Network.Discord.Rest.User
       doFetch = go
         where
           url = baseUrl /: "users"
-          go :: DiscordRest m => UserRequest a -> m a
+          go :: (MonadHttp m, DiscordRest m) => UserRequest a -> m a
           go r@(GetCurrentUser) = makeRequest r
             $ Get (url /: "@me") mempty
 
