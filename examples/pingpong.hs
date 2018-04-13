@@ -1,6 +1,5 @@
 {-# LANGUAGE OverloadedStrings, TypeOperators, FlexibleInstances, MultiParamTypeClasses #-}
 {-# LANGUAGE DataKinds, TypeFamilies #-}
-{-# LANGUAGE UndecidableInstances #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 import Control.Monad (mzero)
@@ -8,12 +7,12 @@ import Data.Proxy
 import GHC.TypeLits
 
 import Network.Discord
+
 import Control.Monad.IO.Class
 import Data.Text
-import Secret (token)
 
 instance DiscordAuth IO where
-  auth    = return $ Bot token -- "TOKEN"
+  auth    = return $ Bot "TOKEN"
   version = return "0.2.2"
   runIO   = id
 
