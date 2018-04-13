@@ -10,7 +10,7 @@ module Network.Discord.Rest.Guild
     import Data.Hashable
     import Data.Monoid (mempty)
     import Data.Text as T
-    import Network.HTTP.Req ((=:), MonadHttp)
+    import Network.HTTP.Req ((=:))
     
     import Network.Discord.Rest.Prelude
     import Network.Discord.Types
@@ -153,7 +153,7 @@ module Network.Discord.Rest.Guild
       doFetch = go
         where
           url = baseUrl /: "guilds"
-          go :: (MonadHttp m, DiscordRest m) => GuildRequest a -> m a
+          go :: DiscordRest m => GuildRequest a -> m a
           go r@(GetGuild guild) = makeRequest r
             $ Get (url // guild) mempty
           go r@(ModifyGuild guild patch) = makeRequest r

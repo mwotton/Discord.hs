@@ -13,7 +13,7 @@ module Network.Discord.Rest.Channel
     import Data.Text as T
     import Network.HTTP.Client (RequestBody (..))
     import Network.HTTP.Client.MultipartFormData (partFileRequestBody)
-    import Network.HTTP.Req (reqBodyMultipart, MonadHttp)
+    import Network.HTTP.Req (reqBodyMultipart)
     
     import Network.Discord.Rest.Prelude
     import Network.Discord.Types
@@ -88,7 +88,7 @@ module Network.Discord.Rest.Channel
 
           url = baseUrl /: "channels"
 
-          go :: (MonadHttp m, DiscordRest m) => ChannelRequest a -> m a
+          go :: DiscordRest m => ChannelRequest a -> m a
           go r@(GetChannel chan) = makeRequest r
             $ Get (url // chan) mempty
           go r@(ModifyChannel chan patch) = makeRequest r

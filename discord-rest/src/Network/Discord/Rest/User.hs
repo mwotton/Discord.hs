@@ -50,7 +50,7 @@ module Network.Discord.Rest.User
       doFetch = go
         where
           url = baseUrl /: "users"
-          go :: (MonadHttp m, DiscordRest m) => UserRequest a -> m a
+          go :: DiscordRest m => UserRequest a -> m a
           go r@(GetCurrentUser) = makeRequest r
             $ Get (url /: "@me") mempty
 

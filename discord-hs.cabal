@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3223bbc7d5b7f1e82a2be59dfcd59eeeec721776af253206880fbbf3b80ef0ab
+-- hash: 335e7ba2bc0a204a36cf7c17d1f36b387620a9afe901fed9f73f3fa908ec56d9
 
 name:           discord-hs
 version:        0.2.2
@@ -40,6 +40,7 @@ library
     , discord-types
     , hashable
     , mtl
+    , req
     , websockets
   default-language: Haskell2010
 

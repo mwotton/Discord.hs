@@ -14,7 +14,7 @@ module Network.Discord.Framework where
   import Control.Monad.Reader
   import Data.Hashable
   import Network.WebSockets (Connection)
-
+  import Network.HTTP.Req (MonadHttp)
   
   newtype DiscordApp m a = DiscordApp 
     { runEvent :: DiscordAuth m => Connection -> Event -> m a }
@@ -48,6 +48,8 @@ module Network.Discord.Framework where
     | a == a'   = (a', b'): delete xs a
     | otherwise = (a, b): modify a' b' xs
   modify a' b' [] = [(a', b')]
+
+  instance MonadHttp (DiscordApp m)
 
   instance DiscordAuth m => DiscordRest (DiscordApp m) where
     getRateLimit f = lookup' (hash f) =<< get rateLimits

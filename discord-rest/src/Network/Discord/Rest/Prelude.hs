@@ -23,7 +23,7 @@ module Network.Discord.Rest.Prelude where
   baseURL :: String
   baseURL = "https://discordapp.com/api/v6"
 
-  class (MonadIO m, DiscordAuth m) => DiscordRest m where
+  class (MonadIO m, MonadHttp m, DiscordAuth m) => DiscordRest m where
     getRateLimit  :: DoFetch f a => f a -> m (Maybe Int)
 
     setRateLimit  :: DoFetch f a => f a -> Int -> m ()
@@ -46,7 +46,7 @@ module Network.Discord.Rest.Prelude where
 
   -- | Class over which performing a data retrieval action is defined
   class Hashable (a b) => DoFetch (a :: * -> *) b | a b -> b where
-    doFetch :: (MonadHttp m, DiscordRest m) => a b -> m b
+    doFetch :: DiscordRest m => a b -> m b
   
   -- | Represents a range of 'Snowflake's
   data Range = Range { after :: Snowflake, before :: Snowflake, limit :: Int}
