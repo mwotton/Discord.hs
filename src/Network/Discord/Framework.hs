@@ -1,9 +1,12 @@
 -- | Provides a convenience framework for writing Discord bots without dealing with Pipes
 module Network.Discord.Framework where
   import Control.Concurrent
-  import Control.Monad.Writer
+  import Control.Monad.Writer (tell, execWriter, Writer)
   import Data.Proxy
 
+  import Control.Monad(void)
+  import Control.Monad.IO.Class(liftIO)
+  import Data.Semigroup(Semigroup, (<>))
   import Control.Concurrent.STM
   import Control.Monad.State (get)
   import Data.Aeson (Object)
@@ -61,7 +64,7 @@ module Network.Discord.Framework where
 
   -- | Event handlers for 'Gateway' events. These correspond to events listed in
   --   'Event'
-  data D.Client c => Handle c = Null
+  data               Handle c = Null
                               | Misc                         (Event   -> Effect DiscordM ())
                               | ReadyEvent                   (Init    -> Effect DiscordM ())
                               | ResumedEvent                 (Object  -> Effect DiscordM ())

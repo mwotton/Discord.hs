@@ -114,6 +114,10 @@ module Network.Discord.Types.Gateway where
     toJSON _ = object []
 
   instance WebSocketsData Payload where
+    fromDataMessage dm =
+      case dm of
+        Text bs _ -> fromLazyByteString bs
+        Binary bs -> fromLazyByteString bs
     fromLazyByteString bs = case eitherDecode bs of
         Right payload -> payload
         Left  reason  -> ParseError reason
