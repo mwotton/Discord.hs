@@ -42,19 +42,17 @@ module Network.Discord.Rest.Prelude where
     setRateLimit req reset = do
       DiscordState {getRateLimits=rl} <- St.get
       St.liftIO . atomically . modifyTVar rl $ insert (hash req) reset
-    -- | If we hit a rate limit, wait for it to reset
+
+-- | If we hit a rate limit, wait for it to reset
     waitRateLimit :: a -> DiscordM ()
-    waitRateLimit endpoint = do
-      rl <- getRateLimit endpoint
-      case rl of
-        Nothing -> return ()
-        Just a  -> do
-          now <- St.liftIO (fmap round getPOSIXTime :: IO Int)
-          St.liftIO $ do
+    waitRateLimit endpoint =
+      maybe (pure ()) (St.liftIO . waitForLimit) =<< getRateLimit endpoint
+      where
+        waitForLimit a = do
+            now <- round <$> getPOSIXTime
             infoM "Discord-hs.Rest" "Waiting for rate limit to reset..."
             threadDelay $ 1000000 * (a - now)
-            putStrLn "Done"
-          return ()
+            infoM "Discord-hs.Rest" "Rate limit reset done"
 
   -- | Class over which performing a data retrieval action is defined
   class DoFetch a where
